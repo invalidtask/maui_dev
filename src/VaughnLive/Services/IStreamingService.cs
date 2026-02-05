@@ -4,8 +4,8 @@ namespace VaughnLive.Services;
 
 public interface IStreamingService
 {
-    Task<List<Stream>> GetRecommendedStreamsAsync();
-    Task<List<Stream>> GetTrendingStreamsAsync();
+    Task<List<LiveStream>> GetRecommendedStreamsAsync();
+    Task<List<LiveStream>> GetTrendingStreamsAsync();
     Task<StreamPlaybackInfo?> GetPlaybackInfoAsync(string streamId);
     Task ReportStreamViewAsync(string streamId);
 }

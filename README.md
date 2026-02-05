@@ -16,7 +16,7 @@ Vaughn Live enables users to discover, watch, and broadcast live video content. 
 
 | Component | Technology |
 |-----------|------------|
-| Framework | .NET MAUI (.NET 8+) |
+| Framework | .NET MAUI (.NET 10) |
 | Language | C# 12+ |
 | UI Framework | XAML with MVVM Pattern |
 | Video Playback | LibVLCSharp (VLC SDK) |
@@ -46,7 +46,7 @@ VaughnLive/
 
 ### Prerequisites
 
-- .NET 8 SDK or later
+- .NET 10 SDK
 - Visual Studio 2022+ with MAUI workload
 - Android SDK (API 26+) for Android development
 - Xcode 14+ for iOS development (macOS only)
@@ -58,16 +58,16 @@ VaughnLive/
 dotnet restore
 
 # Build for Android
-dotnet build -f net8.0-android
+dotnet build -f net10.0-android
 
 # Build for iOS
-dotnet build -f net8.0-ios
+dotnet build -f net10.0-ios
 
 # Run on Android emulator
-dotnet build -t:Run -f net8.0-android
+dotnet build -t:Run -f net10.0-android
 
 # Run on iOS simulator
-dotnet build -t:Run -f net8.0-ios
+dotnet build -t:Run -f net10.0-ios
 
 # Run tests
 dotnet test
@@ -77,10 +77,10 @@ dotnet test
 
 ```bash
 # Publish for Android
-dotnet publish -f net8.0-android -c Release
+dotnet publish -f net10.0-android -c Release
 
 # Publish for iOS
-dotnet publish -f net8.0-ios -c Release -p:ArchiveOnBuild=true
+dotnet publish -f net10.0-ios -c Release -p:ArchiveOnBuild=true
 ```
 
 ## Architecture

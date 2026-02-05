@@ -10,10 +10,10 @@ public partial class HomeViewModel : BaseViewModel
     private readonly IApiService _apiService;
 
     [ObservableProperty]
-    private List<Stream> _featuredStreams = new();
+    private List<LiveStream> _featuredStreams = new();
 
     [ObservableProperty]
-    private List<Stream> _liveStreams = new();
+    private List<LiveStream> _liveStreams = new();
 
     [ObservableProperty]
     private List<Category> _categories = new();
@@ -60,7 +60,7 @@ public partial class HomeViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async Task NavigateToStreamAsync(Stream stream)
+    private async Task NavigateToStreamAsync(LiveStream? stream)
     {
         if (stream == null) return;
 

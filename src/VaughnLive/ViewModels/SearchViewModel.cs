@@ -13,7 +13,7 @@ public partial class SearchViewModel : BaseViewModel
     private string _searchQuery = string.Empty;
 
     [ObservableProperty]
-    private List<Stream> _searchResults = new();
+    private List<LiveStream> _searchResults = new();
 
     [ObservableProperty]
     private List<Category> _categories = new();
@@ -67,7 +67,7 @@ public partial class SearchViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async Task NavigateToStreamAsync(Stream stream)
+    private async Task NavigateToStreamAsync(LiveStream? stream)
     {
         if (stream == null) return;
 

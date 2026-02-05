@@ -12,7 +12,7 @@ public partial class StreamViewModel : BaseViewModel, IDisposable
     private MediaPlayer? _mediaPlayer;
 
     [ObservableProperty]
-    private Models.Stream? _currentStream;
+    private Models.LiveStream? _currentStream;
 
     [ObservableProperty]
     private bool _isPlaying;
@@ -41,9 +41,9 @@ public partial class StreamViewModel : BaseViewModel, IDisposable
         try
         {
             // Fetch stream details from API
-            CurrentStream = await _apiService.GetStreamAsync(streamId);
+            CurrentLiveStream? = await _apiService.GetStreamAsync(streamId);
 
-            if (CurrentStream != null)
+            if (CurrentLiveStream? != null)
             {
                 Title = CurrentStream.Title;
                 ChatUrl = CurrentStream.ChatUrl;
@@ -119,7 +119,7 @@ public partial class StreamViewModel : BaseViewModel, IDisposable
     [RelayCommand]
     private async Task FollowChannelAsync()
     {
-        if (CurrentStream == null) return;
+        if (CurrentLiveStream? == null) return;
 
         try
         {

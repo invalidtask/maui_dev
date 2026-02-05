@@ -1,7 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0-android;net8.0-ios</TargetFrameworks>
+    <!-- iOS requires macOS; use net10.0-android;net10.0-ios on macOS -->
+    <TargetFrameworks>net10.0-android</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('osx'))">net10.0-android;net10.0-ios</TargetFrameworks>
     <OutputType>Exe</OutputType>
     <RootNamespace>VaughnLive</RootNamespace>
     <UseMaui>true</UseMaui>
@@ -25,6 +27,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- MAUI Core - required for .NET 10 -->
+    <PackageReference Include="Microsoft.Maui.Controls" Version="10.*" />
+    
     <!-- VLC SDK for HTTP-FLV playback -->
     <PackageReference Include="LibVLCSharp" Version="3.*" />
     <PackageReference Include="LibVLCSharp.MAUI" Version="3.*" />
@@ -34,8 +39,8 @@
     <PackageReference Include="CommunityToolkit.Maui" Version="7.*" />
     
     <!-- HTTP and JSON -->
-    <PackageReference Include="Microsoft.Extensions.Http" Version="8.*" />
-    <PackageReference Include="System.Text.Json" Version="8.*" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="10.*" />
+    <PackageReference Include="System.Text.Json" Version="10.*" />
     
     <!-- Image Loading -->
     <PackageReference Include="FFImageLoading.Maui" Version="1.*" />

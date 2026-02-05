@@ -5,7 +5,7 @@
              xmlns:controls="clr-namespace:VaughnLive.Controls"
              xmlns:vlc="clr-namespace:LibVLCSharp.MAUI;assembly=LibVLCSharp.MAUI"
              x:Class="VaughnLive.Views.StreamPage"
-             x:DataType="viewmodels:StreamViewModel"
+             x:DataType="viewmodels:LiveStreamViewModel"
              Title="{Binding Title}"
              BackgroundColor="{StaticResource BackgroundDark}"
              Shell.NavBarIsVisible="{Binding IsFullscreen, Converter={StaticResource InvertedBoolConverter}}">

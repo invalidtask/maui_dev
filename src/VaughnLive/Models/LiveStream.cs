@@ -1,6 +1,6 @@
 namespace VaughnLive.Models;
 
-public class Stream
+public class LiveStream
 {
     public string Id { get; set; } = string.Empty;
     public string Title { get; set; } = string.Empty;

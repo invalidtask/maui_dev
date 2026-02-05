@@ -26,7 +26,7 @@
                         <LinearItemsLayout Orientation="Horizontal" ItemSpacing="12"/>
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="models:Stream">
+                        <DataTemplate x:DataType="models:LiveStream">
                             <controls:StreamCard WidthRequest="280">
                                 <controls:StreamCard.GestureRecognizers>
                                     <TapGestureRecognizer 
@@ -88,7 +88,7 @@
                                          VerticalItemSpacing="12"/>
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="models:Stream">
+                        <DataTemplate x:DataType="models:LiveStream">
                             <controls:StreamCard>
                                 <controls:StreamCard.GestureRecognizers>
                                     <TapGestureRecognizer 

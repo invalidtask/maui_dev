@@ -25,7 +25,7 @@
                                          VerticalItemSpacing="12"/>
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="models:Stream">
+                        <DataTemplate x:DataType="models:LiveStream">
                             <controls:StreamCard/>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>

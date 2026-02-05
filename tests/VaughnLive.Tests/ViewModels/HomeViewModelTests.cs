@@ -22,11 +22,11 @@ public class HomeViewModelTests
     public async Task InitializeAsync_LoadsAllData()
     {
         // Arrange
-        var featuredStreams = new List<Stream>
+        var featuredStreams = new List<LiveStream>
         {
             new() { Id = "1", Title = "Featured Stream", IsLive = true }
         };
-        var liveStreams = new List<Stream>
+        var liveStreams = new List<LiveStream>
         {
             new() { Id = "2", Title = "Live Stream", IsLive = true }
         };
@@ -62,9 +62,9 @@ public class HomeViewModelTests
     {
         // Arrange
         _apiServiceMock.Setup(x => x.GetFeaturedStreamsAsync())
-            .ReturnsAsync(new List<Stream>());
+            .ReturnsAsync(new List<LiveStream>());
         _apiServiceMock.Setup(x => x.GetLiveStreamsAsync(null, 1, 20))
-            .ReturnsAsync(new List<Stream>());
+            .ReturnsAsync(new List<LiveStream>());
         _apiServiceMock.Setup(x => x.GetCategoriesAsync())
             .ReturnsAsync(new List<Category>());
 

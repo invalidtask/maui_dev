@@ -12,16 +12,16 @@ public class StreamingService : IStreamingService
         _httpClient = httpClientFactory.CreateClient("VaughnLiveApi");
     }
 
-    public async Task<List<Stream>> GetRecommendedStreamsAsync()
+    public async Task<List<LiveStream>> GetRecommendedStreamsAsync()
     {
-        var response = await _httpClient.GetFromJsonAsync<List<Stream>>("api/streams/recommended");
-        return response ?? new List<Stream>();
+        var response = await _httpClient.GetFromJsonAsync<List<LiveStream>>("api/streams/recommended");
+        return response ?? new List<LiveStream>();
     }
 
-    public async Task<List<Stream>> GetTrendingStreamsAsync()
+    public async Task<List<LiveStream>> GetTrendingStreamsAsync()
     {
-        var response = await _httpClient.GetFromJsonAsync<List<Stream>>("api/streams/trending");
-        return response ?? new List<Stream>();
+        var response = await _httpClient.GetFromJsonAsync<List<LiveStream>>("api/streams/trending");
+        return response ?? new List<LiveStream>();
     }
 
     public async Task<StreamPlaybackInfo?> GetPlaybackInfoAsync(string streamId)

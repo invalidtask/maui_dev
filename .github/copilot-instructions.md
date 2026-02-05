@@ -11,7 +11,7 @@ Vaughn Live is a cross-platform mobile live streaming application built with .NE
 
 | Component | Technology |
 |-----------|------------|
-| Framework | .NET MAUI (.NET 8+) |
+| Framework | .NET MAUI (.NET 10) |
 | IDE | Visual Studio 2026 |
 | Language | C# 12+ |
 | UI Framework | XAML with MVVM Pattern |
@@ -44,8 +44,8 @@ Frame Rate: 30fps (default), 60fps option
   <PackageReference Include="CommunityToolkit.Maui" Version="7.*" />
   
   <!-- HTTP and JSON -->
-  <PackageReference Include="Microsoft.Extensions.Http" Version="8.*" />
-  <PackageReference Include="System.Text.Json" Version="8.*" />
+  <PackageReference Include="Microsoft.Extensions.Http" Version="10.*" />
+  <PackageReference Include="System.Text.Json" Version="10.*" />
   
   <!-- Image Loading -->
   <PackageReference Include="FFImageLoading.Maui" Version="1.*" />
@@ -75,7 +75,7 @@ VaughnLive/
 │       ├── AppShell.xaml.cs
 │       │
 │       ├── Models/
-│       │   ├── Stream.cs
+│       │   ├── LiveStream.cs
 │       │   ├── User.cs
 │       │   ├── Category.cs
 │       │   ├── ChatMessage.cs
@@ -237,12 +237,14 @@ public static class MauiProgram
 
 ## Core Features Implementation
 
-### 1. Stream Model
+### 1. LiveStream Model
+
+> **Note:** The model is named `LiveStream` (not `Stream`) to avoid conflicts with `System.IO.Stream`.
 
 ```csharp
 namespace VaughnLive.Models;
 
-public class Stream
+public class LiveStream
 {
     public string Id { get; set; } = string.Empty;
     public string Title { get; set; } = string.Empty;
@@ -274,7 +276,7 @@ public partial class StreamViewModel : BaseViewModel
     private MediaPlayer? _mediaPlayer;
 
     [ObservableProperty]
-    private Stream? _currentStream;
+    private LiveStream? _currentStream;
 
     [ObservableProperty]
     private bool _isPlaying;
@@ -688,7 +690,7 @@ public class ChatWebView : WebView
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:VaughnLive.Models"
              x:Class="VaughnLive.Controls.StreamCard"
-             x:DataType="models:Stream">
+             x:DataType="models:LiveStream">
 
     <Frame Padding="0"
            CornerRadius="8"
@@ -773,18 +775,18 @@ namespace VaughnLive.Services;
 public interface IApiService
 {
     // Streams
-    Task<List<Stream>> GetFeaturedStreamsAsync();
-    Task<List<Stream>> GetLiveStreamsAsync(string? category = null, int page = 1, int pageSize = 20);
-    Task<Stream?> GetStreamAsync(string streamId);
-    Task<List<Stream>> SearchStreamsAsync(string query, int page = 1, int pageSize = 20);
+    Task<List<LiveStream>> GetFeaturedStreamsAsync();
+    Task<List<LiveStream>> GetLiveStreamsAsync(string? category = null, int page = 1, int pageSize = 20);
+    Task<LiveStream?> GetStreamAsync(string streamId);
+    Task<List<LiveStream>> SearchStreamsAsync(string query, int page = 1, int pageSize = 20);
 
     // Categories
     Task<List<Category>> GetCategoriesAsync();
-    Task<List<Stream>> GetStreamsByCategoryAsync(string categoryId, int page = 1, int pageSize = 20);
+    Task<List<LiveStream>> GetStreamsByCategoryAsync(string categoryId, int page = 1, int pageSize = 20);
 
     // User
     Task<User?> GetCurrentUserAsync();
-    Task<List<Stream>> GetFollowedStreamsAsync();
+    Task<List<LiveStream>> GetFollowedStreamsAsync();
     Task<bool> FollowChannelAsync(string channelId);
     Task<bool> UnfollowChannelAsync(string channelId);
 
@@ -886,20 +888,20 @@ public interface IApiService
 dotnet restore
 
 # Build for Android
-dotnet build -f net8.0-android
+dotnet build -f net10.0-android
 
 # Build for iOS
-dotnet build -f net8.0-ios
+dotnet build -f net10.0-ios
 
 # Run on Android emulator
-dotnet build -t:Run -f net8.0-android
+dotnet build -t:Run -f net10.0-android
 
 # Run on iOS simulator
-dotnet build -t:Run -f net8.0-ios
+dotnet build -t:Run -f net10.0-ios
 
 # Publish for Android
-dotnet publish -f net8.0-android -c Release
+dotnet publish -f net10.0-android -c Release
 
 # Publish for iOS
-dotnet publish -f net8.0-ios -c Release -p:ArchiveOnBuild=true
+dotnet publish -f net10.0-ios -c Release -p:ArchiveOnBuild=true
 ```

@@ -14,7 +14,7 @@ public partial class ProfileViewModel : BaseViewModel
     private User? _currentUser;
 
     [ObservableProperty]
-    private List<Stream> _followedStreams = new();
+    private List<LiveStream> _followedStreams = new();
 
     [ObservableProperty]
     private bool _isLoggedIn;
@@ -83,7 +83,7 @@ public partial class ProfileViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async Task NavigateToStreamAsync(Stream stream)
+    private async Task NavigateToStreamAsync(LiveStream? stream)
     {
         if (stream == null) return;
 

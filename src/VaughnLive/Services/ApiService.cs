@@ -13,13 +13,13 @@ public class ApiService : IApiService
     }
 
     // Streams
-    public async Task<List<Stream>> GetFeaturedStreamsAsync()
+    public async Task<List<LiveStream>> GetFeaturedStreamsAsync()
     {
-        var response = await _httpClient.GetFromJsonAsync<List<Stream>>("api/streams/featured");
-        return response ?? new List<Stream>();
+        var response = await _httpClient.GetFromJsonAsync<List<LiveStream>>("api/streams/featured");
+        return response ?? new List<LiveStream>();
     }
 
-    public async Task<List<Stream>> GetLiveStreamsAsync(string? category = null, int page = 1, int pageSize = 20)
+    public async Task<List<LiveStream>> GetLiveStreamsAsync(string? category = null, int page = 1, int pageSize = 20)
     {
         var url = $"api/streams/live?page={page}&pageSize={pageSize}";
         if (!string.IsNullOrEmpty(category))
@@ -27,20 +27,20 @@ public class ApiService : IApiService
             url += $"&category={Uri.EscapeDataString(category)}";
         }
 
-        var response = await _httpClient.GetFromJsonAsync<List<Stream>>(url);
-        return response ?? new List<Stream>();
+        var response = await _httpClient.GetFromJsonAsync<List<LiveStream>>(url);
+        return response ?? new List<LiveStream>();
     }
 
     public async Task<Stream?> GetStreamAsync(string streamId)
     {
-        return await _httpClient.GetFromJsonAsync<Stream>($"api/streams/{streamId}");
+        return await _httpClient.GetFromJsonAsync<LiveStream>($"api/streams/{streamId}");
     }
 
-    public async Task<List<Stream>> SearchStreamsAsync(string query, int page = 1, int pageSize = 20)
+    public async Task<List<LiveStream>> SearchStreamsAsync(string query, int page = 1, int pageSize = 20)
     {
         var url = $"api/streams/search?q={Uri.EscapeDataString(query)}&page={page}&pageSize={pageSize}";
-        var response = await _httpClient.GetFromJsonAsync<List<Stream>>(url);
-        return response ?? new List<Stream>();
+        var response = await _httpClient.GetFromJsonAsync<List<LiveStream>>(url);
+        return response ?? new List<LiveStream>();
     }
 
     // Categories
@@ -50,11 +50,11 @@ public class ApiService : IApiService
         return response ?? new List<Category>();
     }
 
-    public async Task<List<Stream>> GetStreamsByCategoryAsync(string categoryId, int page = 1, int pageSize = 20)
+    public async Task<List<LiveStream>> GetStreamsByCategoryAsync(string categoryId, int page = 1, int pageSize = 20)
     {
         var url = $"api/categories/{categoryId}/streams?page={page}&pageSize={pageSize}";
-        var response = await _httpClient.GetFromJsonAsync<List<Stream>>(url);
-        return response ?? new List<Stream>();
+        var response = await _httpClient.GetFromJsonAsync<List<LiveStream>>(url);
+        return response ?? new List<LiveStream>();
     }
 
     // User
@@ -70,10 +70,10 @@ public class ApiService : IApiService
         }
     }
 
-    public async Task<List<Stream>> GetFollowedStreamsAsync()
+    public async Task<List<LiveStream>> GetFollowedStreamsAsync()
     {
-        var response = await _httpClient.GetFromJsonAsync<List<Stream>>("api/users/me/following/streams");
-        return response ?? new List<Stream>();
+        var response = await _httpClient.GetFromJsonAsync<List<LiveStream>>("api/users/me/following/streams");
+        return response ?? new List<LiveStream>();
     }
 
     public async Task<bool> FollowChannelAsync(string channelId)
