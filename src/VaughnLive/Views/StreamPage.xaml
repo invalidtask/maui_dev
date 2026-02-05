@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:VaughnLive.ViewModels"
+             xmlns:controls="clr-namespace:VaughnLive.Controls"
+             xmlns:vlc="clr-namespace:LibVLCSharp.MAUI;assembly=LibVLCSharp.MAUI"
+             x:Class="VaughnLive.Views.StreamPage"
+             x:DataType="viewmodels:StreamViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="{StaticResource BackgroundDark}"
+             Shell.NavBarIsVisible="{Binding IsFullscreen, Converter={StaticResource InvertedBoolConverter}}">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- Video Player -->
+        <Grid HeightRequest="{Binding IsFullscreen, Converter={StaticResource FullscreenHeightConverter}}">
+            <vlc:VideoView MediaPlayer="{Binding MediaPlayer}"
+                           BackgroundColor="Black"/>
+
+            <!-- Player Controls Overlay -->
+            <Grid Padding="12" VerticalOptions="End">
+                <Grid.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="Transparent" Offset="0"/>
+                        <GradientStop Color="#80000000" Offset="1"/>
+                    </LinearGradientBrush>
+                </Grid.Background>
+
+                <HorizontalStackLayout Spacing="16" HorizontalOptions="Center">
+                    <ImageButton Source="play_pause.png"
+                                 Command="{Binding TogglePlayPauseCommand}"
+                                 HeightRequest="44"
+                                 WidthRequest="44"/>
+                    <ImageButton Source="fullscreen.png"
+                                 Command="{Binding ToggleFullscreenCommand}"
+                                 HeightRequest="44"
+                                 WidthRequest="44"/>
+                    <ImageButton Source="chat_toggle.png"
+                                 Command="{Binding ToggleChatCommand}"
+                                 HeightRequest="44"
+                                 WidthRequest="44"/>
+                </HorizontalStackLayout>
+            </Grid>
+        </Grid>
+
+        <!-- Stream Info and Chat -->
+        <Grid Grid.Row="1" IsVisible="{Binding IsFullscreen, Converter={StaticResource InvertedBoolConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Stream Info -->
+            <VerticalStackLayout Padding="16" Spacing="8">
+                <Label Text="{Binding CurrentStream.Title}"
+                       TextColor="{StaticResource TextPrimaryDark}"
+                       FontSize="18"
+                       FontAttributes="Bold"/>
+
+                <HorizontalStackLayout Spacing="12">
+                    <Frame CornerRadius="20"
+                           HeightRequest="40"
+                           WidthRequest="40"
+                           Padding="0"
+                           IsClippedToBounds="True">
+                        <Image Source="{Binding CurrentStream.StreamerAvatar}"
+                               Aspect="AspectFill"/>
+                    </Frame>
+
+                    <VerticalStackLayout VerticalOptions="Center">
+                        <Label Text="{Binding CurrentStream.StreamerName}"
+                               TextColor="{StaticResource TextPrimaryDark}"
+                               FontSize="14"
+                               FontAttributes="Bold"/>
+                        <Label Text="{Binding CurrentStream.Category}"
+                               TextColor="{StaticResource TextSecondaryDark}"
+                               FontSize="12"/>
+                    </VerticalStackLayout>
+
+                    <HorizontalStackLayout Spacing="4" VerticalOptions="Center" Margin="16,0,0,0">
+                        <Frame BackgroundColor="{StaticResource LiveIndicator}"
+                               CornerRadius="4"
+                               Padding="6,2">
+                            <Label Text="LIVE"
+                                   TextColor="White"
+                                   FontSize="10"
+                                   FontAttributes="Bold"/>
+                        </Frame>
+                        <Label Text="{Binding CurrentStream.ViewerCount, StringFormat='{0:N0} viewers'}"
+                               TextColor="{StaticResource TextSecondaryDark}"
+                               FontSize="12"
+                               VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                </HorizontalStackLayout>
+
+                <Button Text="Follow"
+                        Command="{Binding FollowChannelCommand}"
+                        BackgroundColor="{StaticResource PrimaryAccent}"
+                        TextColor="White"
+                        CornerRadius="8"
+                        HeightRequest="40"/>
+            </VerticalStackLayout>
+
+            <!-- Chat -->
+            <controls:ChatWebView Grid.Row="1"
+                                  ChatUrl="{Binding ChatUrl}"
+                                  IsVisible="{Binding IsChatVisible}"/>
+        </Grid>
+
+        <!-- Loading Indicator -->
+        <ActivityIndicator Grid.RowSpan="2"
+                           IsRunning="{Binding IsBusy}"
+                           IsVisible="{Binding IsBusy}"
+                           Color="{StaticResource PrimaryAccent}"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"/>
+
+    </Grid>
+
+</ContentPage>

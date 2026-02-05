@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:VaughnLive.Models"
+             x:Class="VaughnLive.Controls.StreamCard"
+             x:DataType="models:Stream">
+
+    <Frame Padding="0"
+           CornerRadius="8"
+           BackgroundColor="{StaticResource SurfaceDark}"
+           HasShadow="False">
+        <Grid RowDefinitions="Auto,Auto">
+            
+            <!-- Thumbnail -->
+            <Grid>
+                <Image Source="{Binding ThumbnailUrl}"
+                       Aspect="AspectFill"
+                       HeightRequest="100"/>
+
+                <!-- Live Badge -->
+                <Frame IsVisible="{Binding IsLive}"
+                       BackgroundColor="{StaticResource LiveIndicator}"
+                       CornerRadius="4"
+                       Padding="6,2"
+                       Margin="8"
+                       HorizontalOptions="Start"
+                       VerticalOptions="Start">
+                    <Label Text="LIVE"
+                           TextColor="White"
+                           FontSize="10"
+                           FontAttributes="Bold"/>
+                </Frame>
+
+                <!-- Viewer Count -->
+                <Frame BackgroundColor="#80000000"
+                       CornerRadius="4"
+                       Padding="6,2"
+                       Margin="8"
+                       HorizontalOptions="End"
+                       VerticalOptions="End">
+                    <HorizontalStackLayout Spacing="4">
+                        <Image Source="viewer_icon.png"
+                               HeightRequest="12"
+                               WidthRequest="12"/>
+                        <Label Text="{Binding ViewerCount, StringFormat='{0:N0}'}"
+                               TextColor="White"
+                               FontSize="11"/>
+                    </HorizontalStackLayout>
+                </Frame>
+            </Grid>
+
+            <!-- Stream Info -->
+            <VerticalStackLayout Grid.Row="1" Padding="8" Spacing="4">
+                <HorizontalStackLayout Spacing="8">
+                    <Frame CornerRadius="16"
+                           HeightRequest="32"
+                           WidthRequest="32"
+                           Padding="0"
+                           IsClippedToBounds="True">
+                        <Image Source="{Binding StreamerAvatar}"
+                               Aspect="AspectFill"/>
+                    </Frame>
+                    <VerticalStackLayout>
+                        <Label Text="{Binding Title}"
+                               TextColor="{StaticResource TextPrimaryDark}"
+                               FontSize="13"
+                               LineBreakMode="TailTruncation"
+                               MaxLines="1"/>
+                        <Label Text="{Binding StreamerName}"
+                               TextColor="{StaticResource TextSecondaryDark}"
+                               FontSize="12"/>
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+                <Label Text="{Binding Category}"
+                       TextColor="{StaticResource TextSecondaryDark}"
+                       FontSize="11"/>
+            </VerticalStackLayout>
+        </Grid>
+    </Frame>
+</ContentView>

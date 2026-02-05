@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:VaughnLive.ViewModels"
+             xmlns:models="clr-namespace:VaughnLive.Models"
+             xmlns:controls="clr-namespace:VaughnLive.Controls"
+             x:Class="VaughnLive.Views.FollowingPage"
+             Title="Following"
+             BackgroundColor="{StaticResource BackgroundDark}">
+
+    <RefreshView x:Name="RefreshView">
+        <ScrollView>
+            <VerticalStackLayout Spacing="16" Padding="16">
+
+                <Label Text="Following"
+                       TextColor="{StaticResource TextPrimaryDark}"
+                       FontSize="24"
+                       FontAttributes="Bold"/>
+
+                <CollectionView x:Name="FollowedStreamsCollection">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical"
+                                         Span="2"
+                                         HorizontalItemSpacing="12"
+                                         VerticalItemSpacing="12"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Stream">
+                            <controls:StreamCard/>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout VerticalOptions="Center" 
+                                             HorizontalOptions="Center" 
+                                             Spacing="16"
+                                             Padding="32">
+                            <Label Text="No followed channels"
+                                   TextColor="{StaticResource TextSecondaryDark}"
+                                   FontSize="16"
+                                   HorizontalTextAlignment="Center"/>
+                            <Label Text="Follow channels to see when they go live"
+                                   TextColor="{StaticResource TextSecondaryDark}"
+                                   FontSize="14"
+                                   HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+                </CollectionView>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+
+</ContentPage>

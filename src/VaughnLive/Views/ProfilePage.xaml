@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:VaughnLive.ViewModels"
+             xmlns:models="clr-namespace:VaughnLive.Models"
+             xmlns:controls="clr-namespace:VaughnLive.Controls"
+             x:Class="VaughnLive.Views.ProfilePage"
+             x:DataType="viewmodels:ProfileViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="{StaticResource BackgroundDark}">
+
+    <RefreshView IsRefreshing="{Binding IsRefreshing}"
+                 Command="{Binding LoadProfileCommand}">
+        <ScrollView>
+            <VerticalStackLayout Spacing="16" Padding="16">
+
+                <!-- Not Logged In State -->
+                <VerticalStackLayout IsVisible="{Binding IsLoggedIn, Converter={StaticResource InvertedBoolConverter}}"
+                                     VerticalOptions="Center"
+                                     Spacing="16"
+                                     Padding="32">
+                    <Image Source="logo.png"
+                           HeightRequest="100"
+                           Aspect="AspectFit"/>
+                    <Label Text="Sign in to access your profile"
+                           TextColor="{StaticResource TextSecondaryDark}"
+                           FontSize="16"
+                           HorizontalTextAlignment="Center"/>
+                    <Button Text="Sign In"
+                            Command="{Binding LoginCommand}"
+                            BackgroundColor="{StaticResource PrimaryAccent}"
+                            TextColor="White"
+                            CornerRadius="8"
+                            HeightRequest="48"/>
+                </VerticalStackLayout>
+
+                <!-- Logged In State -->
+                <VerticalStackLayout IsVisible="{Binding IsLoggedIn}" Spacing="16">
+
+                    <!-- Profile Header -->
+                    <HorizontalStackLayout Spacing="16">
+                        <Frame CornerRadius="40"
+                               HeightRequest="80"
+                               WidthRequest="80"
+                               Padding="0"
+                               IsClippedToBounds="True">
+                            <Image Source="{Binding CurrentUser.AvatarUrl}"
+                                   Aspect="AspectFill"/>
+                        </Frame>
+
+                        <VerticalStackLayout VerticalOptions="Center" Spacing="4">
+                            <Label Text="{Binding CurrentUser.DisplayName}"
+                                   TextColor="{StaticResource TextPrimaryDark}"
+                                   FontSize="20"
+                                   FontAttributes="Bold"/>
+                            <Label Text="{Binding CurrentUser.Username, StringFormat='@{0}'}"
+                                   TextColor="{StaticResource TextSecondaryDark}"
+                                   FontSize="14"/>
+                            <HorizontalStackLayout Spacing="16">
+                                <Label TextColor="{StaticResource TextSecondaryDark}" FontSize="12">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding CurrentUser.FollowerCount, StringFormat='{0:N0}'}"
+                                                  FontAttributes="Bold"
+                                                  TextColor="{StaticResource TextPrimaryDark}"/>
+                                            <Span Text=" followers"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label TextColor="{StaticResource TextSecondaryDark}" FontSize="12">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding CurrentUser.FollowingCount, StringFormat='{0:N0}'}"
+                                                  FontAttributes="Bold"
+                                                  TextColor="{StaticResource TextPrimaryDark}"/>
+                                            <Span Text=" following"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </HorizontalStackLayout>
+
+                    <!-- Edit Profile Button -->
+                    <Button Text="Edit Profile"
+                            Command="{Binding EditProfileCommand}"
+                            BackgroundColor="{StaticResource SurfaceDark}"
+                            TextColor="{StaticResource TextPrimaryDark}"
+                            CornerRadius="8"
+                            HeightRequest="40"/>
+
+                    <!-- Bio -->
+                    <VerticalStackLayout IsVisible="{Binding CurrentUser.Bio, Converter={StaticResource StringToBoolConverter}}">
+                        <Label Text="Bio"
+                               TextColor="{StaticResource TextSecondaryDark}"
+                               FontSize="12"/>
+                        <Label Text="{Binding CurrentUser.Bio}"
+                               TextColor="{StaticResource TextPrimaryDark}"
+                               FontSize="14"/>
+                    </VerticalStackLayout>
+
+                    <!-- Following Streams -->
+                    <Label Text="Following - Live Now"
+                           TextColor="{StaticResource TextPrimaryDark}"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           Margin="0,8,0,0"/>
+
+                    <CollectionView ItemsSource="{Binding FollowedStreams}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="12"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Stream">
+                                <controls:StreamCard>
+                                    <controls:StreamCard.GestureRecognizers>
+                                        <TapGestureRecognizer 
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProfileViewModel}}, Path=NavigateToStreamCommand}"
+                                            CommandParameter="{Binding}"/>
+                                    </controls:StreamCard.GestureRecognizers>
+                                </controls:StreamCard>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                        <CollectionView.EmptyView>
+                            <Label Text="No followed channels are live"
+                                   TextColor="{StaticResource TextSecondaryDark}"
+                                   FontSize="14"
+                                   HorizontalTextAlignment="Center"
+                                   Margin="0,32"/>
+                        </CollectionView.EmptyView>
+                    </CollectionView>
+
+                    <!-- Logout Button -->
+                    <Button Text="Logout"
+                            Command="{Binding LogoutCommand}"
+                            BackgroundColor="Transparent"
+                            TextColor="{StaticResource Error}"
+                            BorderColor="{StaticResource Error}"
+                            BorderWidth="1"
+                            CornerRadius="8"
+                            HeightRequest="44"
+                            Margin="0,16,0,0"/>
+
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+
+</ContentPage>

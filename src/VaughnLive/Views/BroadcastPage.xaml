@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:VaughnLive.ViewModels"
+             xmlns:controls="clr-namespace:VaughnLive.Controls"
+             x:Class="VaughnLive.Views.BroadcastPage"
+             x:DataType="viewmodels:BroadcastViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="{StaticResource BackgroundDark}">
+
+    <Grid>
+        <!-- Pre-Stream Setup -->
+        <ScrollView IsVisible="{Binding IsStreaming, Converter={StaticResource InvertedBoolConverter}}">
+            <VerticalStackLayout Padding="16" Spacing="16">
+
+                <Label Text="Go Live"
+                       TextColor="{StaticResource TextPrimaryDark}"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       HorizontalTextAlignment="Center"/>
+
+                <!-- Camera Preview -->
+                <Frame CornerRadius="12"
+                       HeightRequest="300"
+                       BackgroundColor="{StaticResource SurfaceDark}"
+                       Padding="0">
+                    <controls:BroadcastPreview/>
+                </Frame>
+
+                <!-- Camera Controls -->
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="24">
+                    <ImageButton Source="camera_flip.png"
+                                 Command="{Binding ToggleCameraCommand}"
+                                 HeightRequest="48"
+                                 WidthRequest="48"
+                                 BackgroundColor="{StaticResource SurfaceElevatedDark}"
+                                 CornerRadius="24"/>
+                    <ImageButton Source="microphone.png"
+                                 Command="{Binding ToggleMuteCommand}"
+                                 HeightRequest="48"
+                                 WidthRequest="48"
+                                 BackgroundColor="{StaticResource SurfaceElevatedDark}"
+                                 CornerRadius="24"/>
+                </HorizontalStackLayout>
+
+                <!-- Stream Title -->
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Stream Title"
+                           TextColor="{StaticResource TextSecondaryDark}"
+                           FontSize="12"/>
+                    <Frame Padding="0"
+                           CornerRadius="8"
+                           BackgroundColor="{StaticResource SurfaceDark}">
+                        <Entry Text="{Binding StreamTitle}"
+                               Placeholder="Enter your stream title..."
+                               TextColor="{StaticResource TextPrimaryDark}"
+                               PlaceholderColor="{StaticResource TextSecondaryDark}"
+                               BackgroundColor="Transparent"
+                               Margin="12,0"/>
+                    </Frame>
+                </VerticalStackLayout>
+
+                <!-- Category Selection -->
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Category"
+                           TextColor="{StaticResource TextSecondaryDark}"
+                           FontSize="12"/>
+                    <Frame Padding="0"
+                           CornerRadius="8"
+                           BackgroundColor="{StaticResource SurfaceDark}">
+                        <Picker Title="Select a category"
+                                SelectedItem="{Binding SelectedCategory}"
+                                TextColor="{StaticResource TextPrimaryDark}"
+                                TitleColor="{StaticResource TextSecondaryDark}"
+                                BackgroundColor="Transparent"
+                                Margin="12,0">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Just Chatting</x:String>
+                                    <x:String>Gaming</x:String>
+                                    <x:String>Music</x:String>
+                                    <x:String>Sports</x:String>
+                                    <x:String>Creative</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </Frame>
+                </VerticalStackLayout>
+
+                <!-- Resolution Selection -->
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Resolution"
+                           TextColor="{StaticResource TextSecondaryDark}"
+                           FontSize="12"/>
+                    <HorizontalStackLayout Spacing="8">
+                        <RadioButton Content="480p"
+                                     GroupName="Resolution"
+                                     TextColor="{StaticResource TextPrimaryDark}"/>
+                        <RadioButton Content="720p"
+                                     GroupName="Resolution"
+                                     IsChecked="True"
+                                     TextColor="{StaticResource TextPrimaryDark}"/>
+                        <RadioButton Content="1080p"
+                                     GroupName="Resolution"
+                                     TextColor="{StaticResource TextPrimaryDark}"/>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+                <!-- Go Live Button -->
+                <Button Text="Go Live"
+                        Command="{Binding GoLiveCommand}"
+                        BackgroundColor="{StaticResource LiveIndicator}"
+                        TextColor="White"
+                        FontSize="18"
+                        FontAttributes="Bold"
+                        HeightRequest="56"
+                        CornerRadius="8"
+                        Margin="0,16,0,0"/>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Live Stream View -->
+        <Grid IsVisible="{Binding IsStreaming}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="300"/>
+            </Grid.RowDefinitions>
+
+            <!-- Camera Preview -->
+            <controls:BroadcastPreview/>
+
+            <!-- Stats Bar -->
+            <Frame Grid.Row="1"
+                   BackgroundColor="{StaticResource SurfaceDark}"
+                   Padding="16,8"
+                   CornerRadius="0">
+                <HorizontalStackLayout Spacing="24" HorizontalOptions="Center">
+                    <VerticalStackLayout>
+                        <Label Text="VIEWERS"
+                               TextColor="{StaticResource TextSecondaryDark}"
+                               FontSize="10"/>
+                        <Label Text="{Binding ViewerCount}"
+                               TextColor="{StaticResource TextPrimaryDark}"
+                               FontSize="16"
+                               FontAttributes="Bold"/>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout>
+                        <Label Text="BITRATE"
+                               TextColor="{StaticResource TextSecondaryDark}"
+                               FontSize="10"/>
+                        <Label Text="{Binding CurrentStats.Bitrate, StringFormat='{0} kbps'}"
+                               TextColor="{StaticResource TextPrimaryDark}"
+                               FontSize="16"
+                               FontAttributes="Bold"/>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout>
+                        <Label Text="DURATION"
+                               TextColor="{StaticResource TextSecondaryDark}"
+                               FontSize="10"/>
+                        <Label Text="{Binding CurrentStats.Duration, StringFormat='{0:hh\\:mm\\:ss}'}"
+                               TextColor="{StaticResource TextPrimaryDark}"
+                               FontSize="16"
+                               FontAttributes="Bold"/>
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+            </Frame>
+
+            <!-- Chat -->
+            <controls:ChatWebView Grid.Row="2"
+                                  ChatUrl="{Binding ChatUrl}"/>
+
+            <!-- End Stream Button -->
+            <Button Text="End Stream"
+                    Command="{Binding EndStreamCommand}"
+                    BackgroundColor="{StaticResource Error}"
+                    TextColor="White"
+                    HeightRequest="44"
+                    WidthRequest="120"
+                    CornerRadius="22"
+                    VerticalOptions="Start"
+                    HorizontalOptions="End"
+                    Margin="16"/>
+        </Grid>
+
+        <!-- Loading Indicator -->
+        <ActivityIndicator IsRunning="{Binding IsBusy}"
+                           IsVisible="{Binding IsBusy}"
+                           Color="{StaticResource PrimaryAccent}"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"/>
+
+    </Grid>
+
+</ContentPage>

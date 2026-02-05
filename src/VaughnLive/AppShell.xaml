@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:views="clr-namespace:VaughnLive.Views"
+       x:Class="VaughnLive.AppShell"
+       Shell.FlyoutBehavior="Disabled">
+
+    <Shell.Resources>
+        <ResourceDictionary>
+            <Style x:Key="BaseStyle" TargetType="Element">
+                <Setter Property="Shell.BackgroundColor" Value="{StaticResource BackgroundDark}"/>
+                <Setter Property="Shell.ForegroundColor" Value="{StaticResource TextPrimaryDark}"/>
+                <Setter Property="Shell.TitleColor" Value="{StaticResource TextPrimaryDark}"/>
+                <Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource SurfaceDark}"/>
+                <Setter Property="Shell.TabBarForegroundColor" Value="{StaticResource PrimaryAccent}"/>
+                <Setter Property="Shell.TabBarUnselectedColor" Value="{StaticResource TextSecondaryDark}"/>
+                <Setter Property="Shell.TabBarTitleColor" Value="{StaticResource PrimaryAccent}"/>
+            </Style>
+            <Style TargetType="TabBar" BasedOn="{StaticResource BaseStyle}"/>
+            <Style TargetType="ShellContent" BasedOn="{StaticResource BaseStyle}"/>
+        </ResourceDictionary>
+    </Shell.Resources>
+
+    <TabBar>
+        <ShellContent Title="Home"
+                      Icon="home_icon.png"
+                      ContentTemplate="{DataTemplate views:HomePage}"/>
+
+        <ShellContent Title="Search"
+                      Icon="search_icon.png"
+                      ContentTemplate="{DataTemplate views:SearchPage}"/>
+
+        <ShellContent Title="Go Live"
+                      Icon="broadcast_icon.png"
+                      ContentTemplate="{DataTemplate views:BroadcastPage}"/>
+
+        <ShellContent Title="Following"
+                      Icon="following_icon.png"
+                      ContentTemplate="{DataTemplate views:FollowingPage}"/>
+
+        <ShellContent Title="Profile"
+                      Icon="profile_icon.png"
+                      ContentTemplate="{DataTemplate views:ProfilePage}"/>
+    </TabBar>
+
+</Shell>

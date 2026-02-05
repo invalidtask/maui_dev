@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vlc="clr-namespace:LibVLCSharp.MAUI;assembly=LibVLCSharp.MAUI"
+             x:Class="VaughnLive.Controls.VideoPlayer">
+
+    <Grid BackgroundColor="Black">
+        <vlc:VideoView x:Name="VlcVideoView"/>
+
+        <!-- Controls Overlay -->
+        <Grid x:Name="ControlsOverlay"
+              VerticalOptions="End"
+              Padding="12">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="Transparent" Offset="0"/>
+                    <GradientStop Color="#80000000" Offset="1"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+
+            <HorizontalStackLayout Spacing="16" HorizontalOptions="Center">
+                <ImageButton x:Name="PlayPauseButton"
+                             Source="play_icon.png"
+                             HeightRequest="44"
+                             WidthRequest="44"
+                             Clicked="OnPlayPauseClicked"/>
+                <ImageButton x:Name="FullscreenButton"
+                             Source="fullscreen_icon.png"
+                             HeightRequest="44"
+                             WidthRequest="44"
+                             Clicked="OnFullscreenClicked"/>
+            </HorizontalStackLayout>
+        </Grid>
+
+        <!-- Loading Indicator -->
+        <ActivityIndicator x:Name="LoadingIndicator"
+                           IsRunning="True"
+                           IsVisible="True"
+                           Color="{StaticResource PrimaryAccent}"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"/>
+    </Grid>
+</ContentView>

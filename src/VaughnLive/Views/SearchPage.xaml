@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:VaughnLive.ViewModels"
+             xmlns:models="clr-namespace:VaughnLive.Models"
+             xmlns:controls="clr-namespace:VaughnLive.Controls"
+             x:Class="VaughnLive.Views.SearchPage"
+             x:DataType="viewmodels:SearchViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="{StaticResource BackgroundDark}">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- Search Bar -->
+        <Frame Margin="16,16,16,0"
+               Padding="0"
+               CornerRadius="8"
+               BackgroundColor="{StaticResource SurfaceDark}"
+               HasShadow="False">
+            <SearchBar Placeholder="Search streams, categories..."
+                       Text="{Binding SearchQuery}"
+                       SearchCommand="{Binding SearchCommand}"
+                       BackgroundColor="Transparent"
+                       TextColor="{StaticResource TextPrimaryDark}"
+                       PlaceholderColor="{StaticResource TextSecondaryDark}"/>
+        </Frame>
+
+        <!-- Content -->
+        <ScrollView Grid.Row="1" Padding="16">
+            <VerticalStackLayout Spacing="16">
+
+                <!-- Search Results -->
+                <VerticalStackLayout IsVisible="{Binding HasSearched}">
+                    <HorizontalStackLayout Spacing="8" Margin="0,0,0,8">
+                        <Label Text="Results for:"
+                               TextColor="{StaticResource TextSecondaryDark}"
+                               FontSize="14"/>
+                        <Label Text="{Binding SearchQuery}"
+                               TextColor="{StaticResource TextPrimaryDark}"
+                               FontSize="14"
+                               FontAttributes="Bold"/>
+                        <Button Text="Clear"
+                                Command="{Binding ClearSearchCommand}"
+                                BackgroundColor="Transparent"
+                                TextColor="{StaticResource PrimaryAccent}"
+                                FontSize="12"
+                                Padding="8,0"/>
+                    </HorizontalStackLayout>
+
+                    <CollectionView ItemsSource="{Binding SearchResults}">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical"
+                                             Span="2"
+                                             HorizontalItemSpacing="12"
+                                             VerticalItemSpacing="12"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Stream">
+                                <controls:StreamCard>
+                                    <controls:StreamCard.GestureRecognizers>
+                                        <TapGestureRecognizer 
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SearchViewModel}}, Path=NavigateToStreamCommand}"
+                                            CommandParameter="{Binding}"/>
+                                    </controls:StreamCard.GestureRecognizers>
+                                </controls:StreamCard>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                        <CollectionView.EmptyView>
+                            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="8">
+                                <Label Text="No results found"
+                                       TextColor="{StaticResource TextSecondaryDark}"
+                                       FontSize="16"
+                                       HorizontalTextAlignment="Center"/>
+                            </VerticalStackLayout>
+                        </CollectionView.EmptyView>
+                    </CollectionView>
+                </VerticalStackLayout>
+
+                <!-- Browse Categories (when not searching) -->
+                <VerticalStackLayout IsVisible="{Binding HasSearched, Converter={StaticResource InvertedBoolConverter}}">
+                    <Label Text="Browse Categories"
+                           TextColor="{StaticResource TextPrimaryDark}"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           Margin="0,0,0,12"/>
+
+                    <CollectionView ItemsSource="{Binding Categories}">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical"
+                                             Span="3"
+                                             HorizontalItemSpacing="12"
+                                             VerticalItemSpacing="12"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Category">
+                                <Frame Padding="8"
+                                       CornerRadius="8"
+                                       BackgroundColor="{StaticResource SurfaceDark}">
+                                    <VerticalStackLayout Spacing="4">
+                                        <Image Source="{Binding ImageUrl}"
+                                               HeightRequest="60"
+                                               Aspect="AspectFit"/>
+                                        <Label Text="{Binding Name}"
+                                               TextColor="{StaticResource TextPrimaryDark}"
+                                               FontSize="11"
+                                               HorizontalTextAlignment="Center"
+                                               LineBreakMode="TailTruncation"/>
+                                        <Label Text="{Binding ViewerCount, StringFormat='{0:N0} viewers'}"
+                                               TextColor="{StaticResource TextSecondaryDark}"
+                                               FontSize="10"
+                                               HorizontalTextAlignment="Center"/>
+                                    </VerticalStackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Loading Indicator -->
+        <ActivityIndicator Grid.RowSpan="2"
+                           IsRunning="{Binding IsBusy}"
+                           IsVisible="{Binding IsBusy}"
+                           Color="{StaticResource PrimaryAccent}"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"/>
+
+    </Grid>
+
+</ContentPage>

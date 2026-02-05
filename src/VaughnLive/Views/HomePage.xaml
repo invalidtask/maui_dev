@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:VaughnLive.ViewModels"
+             xmlns:models="clr-namespace:VaughnLive.Models"
+             xmlns:controls="clr-namespace:VaughnLive.Controls"
+             x:Class="VaughnLive.Views.HomePage"
+             x:DataType="viewmodels:HomeViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="{StaticResource BackgroundDark}">
+
+    <RefreshView IsRefreshing="{Binding IsRefreshing}"
+                 Command="{Binding LoadDataCommand}">
+        <ScrollView>
+            <VerticalStackLayout Spacing="16" Padding="16">
+
+                <!-- Featured Streams -->
+                <Label Text="Featured"
+                       TextColor="{StaticResource TextPrimaryDark}"
+                       FontSize="20"
+                       FontAttributes="Bold"/>
+
+                <CollectionView ItemsSource="{Binding FeaturedStreams}"
+                                HeightRequest="180">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Horizontal" ItemSpacing="12"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Stream">
+                            <controls:StreamCard WidthRequest="280">
+                                <controls:StreamCard.GestureRecognizers>
+                                    <TapGestureRecognizer 
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:HomeViewModel}}, Path=NavigateToStreamCommand}"
+                                        CommandParameter="{Binding}"/>
+                                </controls:StreamCard.GestureRecognizers>
+                            </controls:StreamCard>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- Categories -->
+                <Label Text="Categories"
+                       TextColor="{StaticResource TextPrimaryDark}"
+                       FontSize="20"
+                       FontAttributes="Bold"/>
+
+                <CollectionView ItemsSource="{Binding Categories}"
+                                HeightRequest="100">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Horizontal" ItemSpacing="12"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Category">
+                            <Frame Padding="12"
+                                   CornerRadius="8"
+                                   BackgroundColor="{StaticResource SurfaceDark}"
+                                   WidthRequest="120">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer 
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:HomeViewModel}}, Path=NavigateToCategoryCommand}"
+                                        CommandParameter="{Binding}"/>
+                                </Frame.GestureRecognizers>
+                                <VerticalStackLayout Spacing="8">
+                                    <Image Source="{Binding ImageUrl}"
+                                           HeightRequest="40"
+                                           Aspect="AspectFit"/>
+                                    <Label Text="{Binding Name}"
+                                           TextColor="{StaticResource TextPrimaryDark}"
+                                           FontSize="12"
+                                           HorizontalTextAlignment="Center"/>
+                                </VerticalStackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- Live Now -->
+                <Label Text="Live Now"
+                       TextColor="{StaticResource TextPrimaryDark}"
+                       FontSize="20"
+                       FontAttributes="Bold"/>
+
+                <CollectionView ItemsSource="{Binding LiveStreams}">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical"
+                                         Span="2"
+                                         HorizontalItemSpacing="12"
+                                         VerticalItemSpacing="12"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Stream">
+                            <controls:StreamCard>
+                                <controls:StreamCard.GestureRecognizers>
+                                    <TapGestureRecognizer 
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:HomeViewModel}}, Path=NavigateToStreamCommand}"
+                                        CommandParameter="{Binding}"/>
+                                </controls:StreamCard.GestureRecognizers>
+                            </controls:StreamCard>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+
+</ContentPage>

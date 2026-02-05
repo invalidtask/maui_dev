@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- Dark Theme (Default) -->
+    <Color x:Key="BackgroundDark">#0E0E10</Color>
+    <Color x:Key="SurfaceDark">#18181B</Color>
+    <Color x:Key="SurfaceElevatedDark">#1F1F23</Color>
+    <Color x:Key="TextPrimaryDark">#EFEFF1</Color>
+    <Color x:Key="TextSecondaryDark">#ADADB8</Color>
+
+    <!-- Light Theme -->
+    <Color x:Key="BackgroundLight">#F7F7F8</Color>
+    <Color x:Key="SurfaceLight">#FFFFFF</Color>
+    <Color x:Key="SurfaceElevatedLight">#FAFAFA</Color>
+    <Color x:Key="TextPrimaryLight">#0E0E10</Color>
+    <Color x:Key="TextSecondaryLight">#53535F</Color>
+
+    <!-- Accent Colors -->
+    <Color x:Key="PrimaryAccent">#9146FF</Color>
+    <Color x:Key="PrimaryAccentHover">#772CE8</Color>
+    <Color x:Key="LiveIndicator">#EB0400</Color>
+    <Color x:Key="Success">#00C853</Color>
+    <Color x:Key="Warning">#FFB300</Color>
+    <Color x:Key="Error">#FF5252</Color>
+
+    <!-- Semantic Colors -->
+    <Color x:Key="Primary">#9146FF</Color>
+    <Color x:Key="PrimaryDark">#772CE8</Color>
+    <Color x:Key="Secondary">#ADADB8</Color>
+    <Color x:Key="Tertiary">#1F1F23</Color>
+    
+    <!-- Transparent Colors -->
+    <Color x:Key="Transparent">#00000000</Color>
+    <Color x:Key="SemiTransparentBlack">#80000000</Color>
+    <Color x:Key="SemiTransparentWhite">#80FFFFFF</Color>
+
+    <!-- Gradients -->
+    <LinearGradientBrush x:Key="PrimaryGradient" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#9146FF" Offset="0.0"/>
+        <GradientStop Color="#772CE8" Offset="1.0"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="LiveGradient" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Color="#EB0400" Offset="0.0"/>
+        <GradientStop Color="#FF5252" Offset="1.0"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="OverlayGradient" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="Transparent" Offset="0.0"/>
+        <GradientStop Color="#80000000" Offset="1.0"/>
+    </LinearGradientBrush>
+
+</ResourceDictionary>
